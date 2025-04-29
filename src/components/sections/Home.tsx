@@ -38,7 +38,7 @@ const Home: React.FC = () => {
         <div className="max-w-2xl mx-auto text-center">
           <h1 className="text-center text-2xl md:text-2xl lg:text-7xl font-extrabold mb-6 leading-tight animate-fadeInUp animation-delay-100">
           Hola! I'm 
-            <div style={{ position: 'relative', height: '300px' }}>
+            <div style={{ position: 'relative', height: '200px' }}>
               <TextPressure
                 text="Bejoy!"
                 flex={true}

@@ -10,7 +10,7 @@ import Resume from './components/sections/Resume';
 import Contact from './components/sections/Contact';
 import { ThemeProvider } from './context/ThemeContext';
 
-import BlobCursor from './components/ui/BlobCursor';
+import ClickSpark from './components/ui/ClickSpark';
 
 import SplashCursor from '../src/components/ui/SplashCursor';
 
@@ -32,11 +32,18 @@ function App() {
   return (
     <ThemeProvider>
       <div className="relative">
-        <div 
+        <div
           className="fixed top-0 left-0 h-1 bg-gradient-to-r from-blue-500 via-green-500 to-orange-500 z-50 transition-all duration-300 ease-out"
           style={{ width: `${scrollProgress}%` }}
         />
-        <SplashCursor/>
+
+        <ClickSpark
+          sparkColor='#fff'
+          sparkSize={10}
+          sparkRadius={15}
+          sparkCount={8}
+          duration={400}
+        >
         <Header />
         <main>
           <Home />
@@ -46,6 +53,7 @@ function App() {
           <Education />
           <Contact />
         </main>
+        </ClickSpark>
         <Footer />
       </div>
     </ThemeProvider>

@@ -83,7 +83,7 @@ const Contact: React.FC = () => {
                   <div>
                     <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">Location</h4>
                     <p className="text-gray-600 dark:text-gray-400">
-                      Coimbatore, Tamil Nadu, India
+                      Chennai, Tamil Nadu, India
                     </p>
                   </div>
                 </div>
