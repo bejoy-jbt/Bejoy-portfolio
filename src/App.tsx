@@ -36,7 +36,7 @@ function App() {
           className="fixed top-0 left-0 h-1 bg-gradient-to-r from-blue-500 via-green-500 to-orange-500 z-50 transition-all duration-300 ease-out"
           style={{ width: `${scrollProgress}%` }}
         />
-        
+        <SplashCursor/>
         <Header />
         <main>
           <Home />

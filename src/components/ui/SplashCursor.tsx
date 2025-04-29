@@ -1523,17 +1523,17 @@ export default function SplashCursor({
     // ------------------------------------------------------------
   }, [
     SIM_RESOLUTION = 132,                 // Reduce from 128
-    DYE_RESOLUTION = 360,                 // Reduce from 1440
+    DYE_RESOLUTION = 1000,                 // Reduce from 1440
     CAPTURE_RESOLUTION = 2.5,
     DENSITY_DISSIPATION = 5,            // Increase from 3.5
     VELOCITY_DISSIPATION = 4,           // Increase from 2
     PRESSURE = 0.2,
-    PRESSURE_ITERATIONS = 30,             // Increase from 20
+    PRESSURE_ITERATIONS = 20,             // Increase from 20
     CURL = 1,                             // Reduce curl to slow motion
-    SPLAT_RADIUS = 0.1,
-    SPLAT_FORCE = 1500,                    // Big reduction from 6000
+    SPLAT_RADIUS = 0.2,
+    SPLAT_FORCE = 6000,                    // Big reduction from 6000
     SHADING = true,                      // Disable shading for flat look
-    COLOR_UPDATE_SPEED = 2.0,              // Slow color updates
+    COLOR_UPDATE_SPEED = 4.0,              // Slow color updates
     BACK_COLOR = { r: 0, g: 0, b: 0 },
     TRANSPARENT = true,
   ]);
