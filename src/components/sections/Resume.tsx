@@ -121,7 +121,7 @@ const Resume: React.FC = () => {
         {/* Download Resume */}
         <div className="flex justify-center mb-12">
           <a
-            href="src\public\BejoyJBT_ResumeAi.pdf"
+            href="/src/Utils/BejoyJBT_Resume.pdf"
             download
             className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg"
           >
