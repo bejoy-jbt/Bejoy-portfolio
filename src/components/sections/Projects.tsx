@@ -22,7 +22,7 @@ const Projects: React.FC = () => {
       id: 5,
       title: "LeafLens – Offline Plant Disease Detection System",
       description: "LeafLens is an Edge AI-powered plant disease detection system built for farmers. It uses a lightweight CNN model to diagnose diseases in tomato, potato, and pepper leaves with over 93% accuracy — entirely offline. Designed to run on Snapdragon-powered devices, it delivers real-time multilingual treatment advice without internet, enabling smarter, faster, and more private crop care",
-      image: "src/public/image.png",
+      image: "https://github.com/bejoy-jbt/Bejoy-portfolio/blob/master/src/public/image.png",
       tech: [
         "Snapdragon X Elite + SNPE (Neural Processing Engine)",
         "QNN SDK (Quantization)",
