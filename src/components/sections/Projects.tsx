@@ -20,6 +20,25 @@ const Projects: React.FC = () => {
   const projects: Project[] = [
     {
       id: 5,
+      title: "LeafLens – Offline Plant Disease Detection System",
+      description: "LeafLens is an Edge AI-powered plant disease detection system built for farmers. It uses a lightweight CNN model to diagnose diseases in tomato, potato, and pepper leaves with over 93% accuracy — entirely offline. Designed to run on Snapdragon-powered devices, it delivers real-time multilingual treatment advice without internet, enabling smarter, faster, and more private crop care",
+      image: "src/public/image.png",
+      tech: [
+        "Snapdragon X Elite + SNPE (Neural Processing Engine)",
+        "QNN SDK (Quantization)",
+        "Transformers (Hugging Face)",
+        "NLP/TTS: Helsinki-NLP",
+        "LLM Integration: Ollama",
+        "Flask (Python REST API)",
+        "Dataset: PlantVillage (via Kaggle)"
+      ]
+      ,
+      githubUrl: "https://github.com/bejoy-jbt/LeafLens-Qualcomm-Hackathon",
+      category: 'other',
+      featured: true
+    },
+    {
+      id: 5,
       title: "AI Sentiment Analysis",
       description: "Developed a sentiment analysis model using the SST-2 dataset to classify movie reviews as positive or negative. Implemented preprocessing, tokenization, and model training to achieve accurate sentiment classification.",
       image: "https://influencermarketinghub.com/wp-content/uploads/2025/02/AI-Sentiment-Analysis.jpg",
