@@ -1,0 +1,612 @@
+/* Interactive hero scene — day & night */
+
+.home-scene .scene-actor {
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  z-index: 2;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.scene-actor-react {
+  animation-play-state: paused !important;
+  z-index: 5;
+}
+
+.scene-actor-inner {
+  display: block;
+  overflow: visible;
+  transition: transform 0.12s ease;
+}
+
+.scene-actor-inner.is-react {
+  transform: scale(1.2);
+  filter: brightness(1.15);
+}
+
+.scene-actor-pop {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  color: #f7d51d;
+  text-shadow: 2px 2px 0 #1a1a2e;
+  animation: pop-fade 0.5s ease forwards;
+  pointer-events: none;
+}
+
+@keyframes pop-fade {
+  0% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-12px); }
+}
+
+/* —— Animations —— */
+.anim-sun-idle {
+  animation: sun-pulse 4s ease-in-out infinite;
+}
+
+.anim-moon-float {
+  animation: moon-float 5s ease-in-out infinite;
+}
+
+.anim-cloud-drift-1 {
+  animation: cloud-drift-1 52s linear infinite, cloud-bob 7s ease-in-out infinite;
+}
+
+.anim-cloud-drift-2 {
+  animation: cloud-drift-2 38s linear infinite, cloud-bob 5s ease-in-out infinite;
+}
+
+.anim-cloud-drift-3 {
+  animation: cloud-drift-3 44s linear infinite, cloud-bob 6s ease-in-out infinite;
+}
+
+.anim-thief-sneak {
+  animation: thief-sneak 12s linear infinite;
+}
+
+.anim-owl-perch {
+  animation: owl-bob 3s ease-in-out infinite;
+}
+
+.anim-robin-perch {
+  animation: robin-perch 3.2s ease-in-out infinite;
+}
+
+@keyframes sun-pulse {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.06) rotate(6deg); }
+}
+
+@keyframes moon-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes cloud-drift-1 {
+  0% { left: -18%; }
+  100% { left: 118%; }
+}
+
+@keyframes cloud-drift-2 {
+  0% { left: 118%; }
+  100% { left: -18%; }
+}
+
+@keyframes cloud-drift-3 {
+  0% { left: -18%; }
+  100% { left: 118%; }
+}
+
+@keyframes cloud-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes thief-sneak {
+  0% { left: -10%; }
+  45% { transform: translateY(0) scaleX(1); }
+  50% { transform: translateY(2px) scaleX(1); }
+  55% { transform: translateY(0) scaleX(1); }
+  100% { left: 110%; }
+}
+
+@keyframes owl-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes robin-perch {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* Positions */
+.scene-sun {
+  top: 10%;
+  right: 8%;
+  width: 72px;
+  height: 72px;
+}
+
+.scene-moon {
+  top: 8%;
+  right: 10%;
+  width: 56px;
+  height: 56px;
+}
+
+.scene-cloud {
+  z-index: 1;
+}
+
+.scene-cloud.c1 {
+  top: 14%;
+  animation-delay: 0s, 0s;
+}
+
+.scene-cloud.c2 {
+  top: 26%;
+  animation-delay: -12s, -1s;
+}
+
+.scene-cloud.c3 {
+  top: 10%;
+  animation-delay: -24s, -2s;
+}
+
+.scene-owl {
+  left: 12%;
+  bottom: 5.5rem;
+  width: 40px;
+  height: 44px;
+}
+
+.scene-robin {
+  right: 10%;
+  left: auto;
+  bottom: 5.45rem;
+  width: 44px;
+  height: 52px;
+}
+
+.scene-thief {
+  bottom: 4.7rem;
+  width: 32px;
+  height: 38px;
+}
+
+/* Stars */
+.scene-stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.scene-star {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #fff;
+  box-shadow: 0 0 4px #fff;
+  animation: star-twinkle 2s ease-in-out infinite;
+}
+
+@keyframes star-twinkle {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* —— Pixel Sun —— */
+.pixel-sun-body {
+  position: relative;
+  width: 64px;
+  height: 64px;
+}
+
+.pixel-sun-rays {
+  position: absolute;
+  inset: -8px;
+  background: repeating-conic-gradient(#f7d51d 0 10deg, transparent 10deg 20deg);
+  border-radius: 50%;
+  animation: sun-rays-spin 20s linear infinite;
+}
+
+@keyframes sun-rays-spin {
+  to { transform: rotate(360deg); }
+}
+
+.pixel-sun-face {
+  position: absolute;
+  inset: 10px;
+  background: #f7d51d;
+  border: 3px solid #1a1a2e;
+  border-radius: 50%;
+}
+
+.pixel-sun-eye {
+  position: absolute;
+  top: 14px;
+  width: 6px;
+  height: 6px;
+  background: #1a1a2e;
+}
+
+.pixel-sun-eye:first-of-type {
+  left: 12px;
+}
+
+.pixel-sun-eye:nth-of-type(2) {
+  right: 12px;
+}
+
+.pixel-sun-smile {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 6px;
+  border-bottom: 3px solid #1a1a2e;
+  border-radius: 0 0 8px 8px;
+}
+
+.scene-actor-react .pixel-sun-smile {
+  height: 10px;
+  border-radius: 50%;
+}
+
+/* —— Pixel Moon —— */
+.pixel-moon {
+  width: 48px;
+  height: 48px;
+  background: #f4f4dc;
+  border: 3px solid #1a1a2e;
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(255, 255, 220, 0.5);
+  position: relative;
+}
+
+.pixel-moon-crater {
+  position: absolute;
+  background: #d4d4bc;
+  border-radius: 50%;
+}
+
+.pixel-moon-crater.c1 {
+  width: 10px;
+  height: 10px;
+  top: 12px;
+  left: 10px;
+}
+
+.pixel-moon-crater.c2 {
+  width: 8px;
+  height: 8px;
+  bottom: 10px;
+  right: 12px;
+}
+
+.pixel-moon-eye {
+  position: absolute;
+  top: 18px;
+  right: 14px;
+  width: 4px;
+  height: 4px;
+  background: #1a1a2e;
+  border-radius: 50%;
+}
+
+/* —— Cloud GIFs —— */
+.scene-cloud-gif {
+  display: block;
+  height: auto;
+  user-select: none;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 0 rgba(26, 26, 46, 0.15));
+}
+
+.dark .scene-cloud-gif {
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.35));
+}
+
+/* —— Owl —— */
+.pixel-owl {
+  position: relative;
+  width: 36px;
+  height: 40px;
+}
+
+.po-body {
+  position: absolute;
+  bottom: 0;
+  left: 4px;
+  width: 28px;
+  height: 28px;
+  background: #8b6914;
+  border: 2px solid #1a1a2e;
+  border-radius: 4px 4px 8px 8px;
+}
+
+.po-ear {
+  position: absolute;
+  top: 0;
+  width: 8px;
+  height: 12px;
+  background: #8b6914;
+  border: 2px solid #1a1a2e;
+}
+
+.po-ear.e1 {
+  left: 6px;
+  transform: rotate(-15deg);
+}
+
+.po-ear.e2 {
+  right: 6px;
+  transform: rotate(15deg);
+}
+
+.po-eye {
+  position: absolute;
+  top: 14px;
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  border: 2px solid #1a1a2e;
+  border-radius: 50%;
+}
+
+.po-eye.ey1 {
+  left: 6px;
+}
+
+.po-eye.ey2 {
+  right: 6px;
+}
+
+.po-beak {
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 8px solid #f7d51d;
+}
+
+.scene-actor-react .po-eye {
+  height: 2px;
+}
+
+/* —— Day robin (perched, like night owl) —— */
+.pixel-robin {
+  position: relative;
+  width: 44px;
+  height: 52px;
+}
+
+.pr-branch {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 22px;
+  background: #6b4423;
+  border: 2px solid #1a1a2e;
+}
+
+.pr-branch::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: -14px;
+  width: 34px;
+  height: 5px;
+  background: #5c3d1e;
+  border: 2px solid #1a1a2e;
+}
+
+.pr-body {
+  position: absolute;
+  bottom: 18px;
+  left: 10px;
+  width: 22px;
+  height: 16px;
+  background: #4a6a9e;
+  border: 2px solid #1a1a2e;
+  border-radius: 6px 8px 4px 4px;
+}
+
+.pr-belly {
+  position: absolute;
+  bottom: 20px;
+  left: 14px;
+  width: 14px;
+  height: 12px;
+  background: #e85d4c;
+  border: 2px solid #1a1a2e;
+  border-radius: 50%;
+}
+
+.pr-head {
+  position: absolute;
+  bottom: 30px;
+  left: 14px;
+  width: 16px;
+  height: 14px;
+  background: #4a6a9e;
+  border: 2px solid #1a1a2e;
+  border-radius: 50%;
+}
+
+.pr-eye {
+  position: absolute;
+  bottom: 36px;
+  width: 5px;
+  height: 5px;
+  background: #1a1a2e;
+  border-radius: 50%;
+  transition: height 0.12s ease;
+}
+
+.pr-eye.ey1 {
+  left: 16px;
+}
+
+.pr-eye.ey2 {
+  left: 24px;
+}
+
+.pr-beak {
+  position: absolute;
+  bottom: 33px;
+  left: 20px;
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 7px solid #f7d51d;
+}
+
+.pr-wing {
+  position: absolute;
+  bottom: 26px;
+  left: 6px;
+  width: 12px;
+  height: 8px;
+  background: #3d5a8a;
+  border: 2px solid #1a1a2e;
+  border-radius: 4px 0 0 4px;
+  transform-origin: right center;
+  animation: robin-wing-flap 0.55s ease-in-out infinite;
+}
+
+.pr-tail {
+  position: absolute;
+  bottom: 20px;
+  right: 8px;
+  width: 8px;
+  height: 6px;
+  background: #e85d4c;
+  border: 2px solid #1a1a2e;
+  border-radius: 0 4px 4px 0;
+}
+
+@keyframes robin-wing-flap {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-14deg); }
+}
+
+.scene-actor-react .pr-eye {
+  height: 2px;
+  border-radius: 0;
+}
+
+.scene-actor-react .pr-wing {
+  animation: robin-wing-react 0.45s ease;
+}
+
+@keyframes robin-wing-react {
+  0%, 100% { transform: rotate(-20deg); }
+  50% { transform: rotate(12deg); }
+}
+
+.scene-actor-react .pr-head {
+  animation: robin-chirp 0.45s ease;
+}
+
+@keyframes robin-chirp {
+  0%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-3px); }
+}
+
+/* —— Thief —— */
+.pixel-thief {
+  position: relative;
+  width: 28px;
+  height: 36px;
+}
+
+.pt-mask {
+  position: absolute;
+  top: 0;
+  left: 4px;
+  width: 18px;
+  height: 10px;
+  background: #2d2d44;
+  border: 2px solid #1a1a2e;
+}
+
+.pt-head {
+  position: absolute;
+  top: 8px;
+  left: 6px;
+  width: 14px;
+  height: 10px;
+  background: #ffccaa;
+  border: 2px solid #1a1a2e;
+}
+
+.pt-body {
+  position: absolute;
+  top: 18px;
+  left: 5px;
+  width: 16px;
+  height: 12px;
+  background: #1a1a2e;
+  border: 2px solid #1a1a2e;
+}
+
+.pt-bag {
+  position: absolute;
+  top: 20px;
+  right: -2px;
+  width: 10px;
+  height: 12px;
+  background: #8b4513;
+  border: 2px solid #1a1a2e;
+}
+
+.pt-leg {
+  position: absolute;
+  bottom: 0;
+  width: 5px;
+  height: 8px;
+  background: #1a1a2e;
+  animation: leg-walk 0.5s steps(2) infinite;
+}
+
+.pt-leg.l1 {
+  left: 7px;
+}
+
+.pt-leg.l2 {
+  right: 7px;
+  animation-delay: 0.25s;
+}
+
+.scene-actor-react.pixel-thief,
+.scene-thief.scene-actor-react {
+  animation-play-state: paused !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-scene .scene-actor {
+    animation: none !important;
+  }
+  .pixel-sun-rays,
+  .pr-wing,
+  .pt-leg {
+    animation: none !important;
+  }
+}

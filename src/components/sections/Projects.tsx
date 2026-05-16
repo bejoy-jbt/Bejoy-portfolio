@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import { ExternalLink, Github, Maximize2, Code, X } from 'lucide-react';
+import { ExternalLink, Github, Maximize2, X } from 'lucide-react';
+import SectionHeading from '../ui/SectionHeading';
+import RetroCard from '../ui/RetroCard';
+import BlurFade from '../ui/BlurFade';
+import { profile } from '../../data/profile';
 
 interface Project {
   id: number;
@@ -13,304 +17,262 @@ interface Project {
   featured: boolean;
 }
 
+const projects: Project[] = [
+  {
+    id: 1,
+    title: 'Quick Cart',
+    description:
+      'Scalable e-commerce backend with Spring Boot — REST APIs for products, orders, and users. JWT authentication, role-based authorization, and optimized MySQL schema for reliable transactions.',
+    image:
+      'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80',
+    tech: ['Spring Boot', 'Spring Security', 'React.js', 'MySQL', 'JWT'],
+    githubUrl: `${profile.links.github}`,
+    category: 'web',
+    featured: true,
+  },
+  {
+    id: 2,
+    title: 'Authentication & Authorization System',
+    description:
+      'Stateless auth module with Spring Security — JWT generation, validation, custom filters, BCrypt credentials, and MySQL-backed user roles with centralized exception handling.',
+    image:
+      'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&q=80',
+    tech: ['Spring Boot', 'Spring Security', 'JWT', 'MySQL', 'BCrypt'],
+    githubUrl: `${profile.links.github}`,
+    category: 'web',
+    featured: true,
+  },
+  {
+    id: 3,
+    title: 'LeafLens – Edge AI Plant Diagnostics',
+    description:
+      'Qualcomm Hackathon finalist — offline CNN plant disease detection (93%+ accuracy) on Snapdragon with multilingual treatment advice via edge NLP/TTS.',
+    image:
+      'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&q=80',
+    tech: ['Snapdragon SNPE', 'QNN SDK', 'Flask', 'PyTorch', 'PlantVillage'],
+    githubUrl: 'https://github.com/bejoy-jbt/LeafLens-Qualcomm-Hackathon',
+    category: 'other',
+    featured: true,
+  },
+  {
+    id: 4,
+    title: 'ConnectVerse',
+    description:
+      'MERN social platform for professional networking, real-time chat, and project showcasing with Socket.io.',
+    image:
+      'https://images.ctfassets.net/pdf29us7flmy/4OVj7HuuJkTyG5rHwLbXo5/022dc36619d3e86d20acae9c7b787020/resized.png?w=1440&q=100&fm=avif',
+    tech: ['React', 'Node.js', 'MongoDB', 'Socket.io', 'Express'],
+    githubUrl: 'https://github.com/bejoy-jbt/ConnectVerse-socialmedia-app-MERN-',
+    category: 'web',
+    featured: false,
+  },
+  {
+    id: 5,
+    title: 'AI Sentiment Analysis',
+    description:
+      'SST-2 movie review classifier with Hugging Face transformers, preprocessing, and PyTorch training pipeline.',
+    image: '/projects/ai-sentiment-analysis.png',
+    tech: ['Python', 'PyTorch', 'Transformers', 'NLTK', 'SST-2'],
+    githubUrl: 'https://github.com/bejoy-jbt/Sentiment-analysis-using-SST2',
+    category: 'other',
+    featured: false,
+  },
+  {
+    id: 6,
+    title: 'QR Generator',
+    description: 'Generate downloadable QR codes from text or URLs — React frontend with Python/Flask API on Vercel.',
+    image: 'https://www.the-qrcode-generator.com/wp-content/themes/tqrcg/img/homepage/homepage-step-1.webp',
+    tech: ['React', 'Flask', 'Python', 'Vercel'],
+    githubUrl: 'https://github.com/bejoy-jbt/or-generator',
+    liveUrl: 'https://or-generator-using-python.vercel.app/',
+    category: 'web',
+    featured: false,
+  },
+  {
+    id: 7,
+    title: 'EV Management System',
+    description: 'Web platform for EV drivers — charging stations, incentives, and operational insights.',
+    image:
+      'https://res.cloudinary.com/ds9azjvr2/image/upload/v1720786997/1720786994211-Why_20EV_20Technology_20is_20the_20Future_20of_20Transportation.webp_uucouz.webp',
+    tech: ['PHP', 'MySQL', 'HTML', 'CSS'],
+    githubUrl: 'https://github.com/bejoy-jbt/EV-Management-System',
+    category: 'web',
+    featured: false,
+  },
+];
+
+const filters = [
+  { key: 'all' as const, label: 'All' },
+  { key: 'web' as const, label: 'Backend / Web' },
+  { key: 'mobile' as const, label: 'Mobile' },
+  { key: 'other' as const, label: 'AI / Edge' },
+];
+
 const Projects: React.FC = () => {
   const [filter, setFilter] = useState<'all' | 'web' | 'mobile' | 'other'>('all');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  const projects: Project[] = [
-    {
-      id: 5,
-      title: "LeafLens – Offline Plant Disease Detection System",
-      description: "LeafLens is an Edge AI-powered plant disease detection system built for farmers. It uses a lightweight CNN model to diagnose diseases in tomato, potato, and pepper leaves with over 93% accuracy — entirely offline. Designed to run on Snapdragon-powered devices, it delivers real-time multilingual treatment advice without internet, enabling smarter, faster, and more private crop care",
-      image: "https://lh3.googleusercontent.com/rd-gg-dl/AJfQ9KRVrQw2F46LQ4cP6DETSeM_oWS8_Y3Qc233RmTSpuSZLXyIjIFiVV7SVLObtLnUhgM6RQiBNNL6A2cKzHHJofIurNR0egQ4tu8Lk8yelqQqhQw7BV-JCDc4OV5-OHJrmME95DyXX-9b_zFXWFMsE2PiStCYHJ13k6er1AVPbqQFsHi5XTrfpmSu_0cPr1SnsH3PhBJUxMsU_b7ayea71m6whIb1Qy0xudTx6czFecrLKCjj1ulZUvCO0Sp3OP2X7njQuGntBIp-I5bkrxarqxtAeLJbAVjl1F-4LKB3A7HcQI84s-wBj9wJFy90PuB8wEYdS17uyBOPo7BDhtBBaif-SwQvSOxmw9N9HQDab2dUn48haT5iy77qxvj3KFtHpyt2BcG1XMCW2CPgPoPPIM7pnU2Ve9nTvlpEsxKSodvS7CamCn9-yrwmLOJwE3uRTYnFAGEfUwlm428OTt9Fft-D9JUG-htI69c5tFYaLiJRQOuO6YDmRYEsErOIy-ykwQmFTynONlK1TvGwU1J9ft9ScMTnpUa2tRD_UNu9oH2umqIr80rfUPzlHSpWSN8V9ENx6mRKlicfHGShA1mTIFu77ks6JcLQnQFRVO361mIfpNQl0wEN4YRHi_NN50WVX1izDISODXpHYXx495yFDR9wAupm7ukzMnFOFvj0QtvSfIMQ9BPafpUvUYzHGkIvscdkEBz-RkOPGzwwmywKE2poOM7C-WItNcQWrPDE8COecChoZ2IqoVPe55EKpRZM6-sP8Gz9TJSErH19_eQeAaxKnroGFpV0_MsMStIB6HqH9-O3RSRiHa9mavNseP-4sgWYpPr_SCtEU-6iBFEm6YpyRHRxWnghX-doU9s9BcJkIGuWdHeqvvkxnVWTj_dJBCbE6saz9tsfbCjxBiHTdjileG07p3Ggfy_jTSRCMtaVbzJUGeQ4ra-QJlh_j9k9d9g66d6CnKuWzlE7ub42DnsYWJqBLNqlDvVR0e98OYVx6c0DDwh6fZJ955p3FXk5t2GB9qr7XCvZgN-1CEyC36aBJ819_G8CkdKJ5K5mY01pm3yjT5XWnEMd5SK79vrnutm1Ua6RXwMt4CPBPZF6_O3rUcXyvpk1sj1yPz8SeuwSphQQ7F-Rv8TZQFe0uPQbIE_SommtDP8HThqTM6qq0Xwhwbx6WYQS9aBIRSQ=s1024",
-      tech: [
-        "Snapdragon X Elite + SNPE (Neural Processing Engine)",
-        "QNN SDK (Quantization)",
-        "Transformers (Hugging Face)",
-        "NLP/TTS: Helsinki-NLP",
-        "LLM Integration: Ollama",
-        "Flask (Python REST API)",
-        "Dataset: PlantVillage (via Kaggle)"
-      ]
-      ,
-      githubUrl: "https://github.com/bejoy-jbt/LeafLens-Qualcomm-Hackathon",
-      category: 'other',
-      featured: true
-    },
-    {
-      id: 5,
-      title: "AI Sentiment Analysis",
-      description: "Developed a sentiment analysis model using the SST-2 dataset to classify movie reviews as positive or negative. Implemented preprocessing, tokenization, and model training to achieve accurate sentiment classification.",
-      image: "https://influencermarketinghub.com/wp-content/uploads/2025/02/AI-Sentiment-Analysis.jpg",
-      tech: [
-        "Python",
-        "PyTorch",
-        "Transformers (Hugging Face)",
-        "NLTK",
-        "Pandas",
-        "SST-2 Dataset",
-        "Jupyter Notebook"
-      ]
-      ,
-      githubUrl: "https://github.com/bejoy-jbt/Sentiment-analysis-using-SST2",
-      category: 'other',
-      featured: false
-    },
-
-    {
-      id: 1,
-      title: "ConnectVerse",
-      description: "Innovative platform designed to facilitate professional networking, meaningful interactions, and intellectual growth. It enables users to connect, share ideas, and expand their professional horizons through an intuitive and user-friendly interface.",
-      image: "https://images.ctfassets.net/pdf29us7flmy/4OVj7HuuJkTyG5rHwLbXo5/022dc36619d3e86d20acae9c7b787020/resized.png?w=1440&q=100&fm=avif",
-      tech: ["React", "Node.js", "Express", "MongoDB", "Socket.io"],
-      githubUrl: "https://github.com/bejoy-jbt/ConnectVerse-socialmedia-app-MERN-",
-
-      category: 'web',
-      featured: true
-    },
-    {
-      id: 2,
-      title: "EvPointsHub",
-      description: "A social platform for developers to share projects, connect with peers, and collaborate on open-source initiatives. Features include project showcasing, real-time chat, and skill matching.",
-      image: "https://cdn.educba.com/academy/wp-content/uploads/2024/04/Essay-on-Recycling.jpg",
-      tech: [
-        "Kotlin",
-        "Java",
-        "Android Studio",
-        "XML",
-        "Firebase",
-      ],
-      githubUrl: "https://github.com",
-
-      category: 'web',
-      featured: false
-    },
-    {
-      id: 3,
-      title: "OR-Generater",
-      description: "Built and deployed a QR code generator on Vercel that converts text or URLs into downloadable QR codes for easy sharing",
-      image: "https://www.the-qrcode-generator.com/wp-content/themes/tqrcg/img/homepage/homepage-step-1.webp",
-      tech: ["React", "Flask", "Versel", "Python"],
-      githubUrl: "https://github.com/bejoy-jbt/or-generator",
-      liveUrl: "https://or-generator-using-python.vercel.app/",
-      category: 'web',
-      featured: false
-    },
-    {
-      id: 4,
-      title: "EV Solutions Platform",
-      description: "Discover a comprehensive platform built for electric vehicle drivers, offering seamless access to charging stations, incentives, and user insights.",
-      image: "https://res.cloudinary.com/ds9azjvr2/image/upload/v1720786997/1720786994211-Why_20EV_20Technology_20is_20the_20Future_20of_20Transportation.webp_uucouz.webp",
-      tech: ["Php", "MySql", "HTML", "CSS"],
-      githubUrl: "https://github.com/bejoy-jbt/EV-Management-System",
-
-      category: 'web',
-      featured: false
-    },
-
-  ];
-
-  const filteredProjects = filter === 'all'
-    ? projects
-    : projects.filter(project => project.category === filter);
+  const filtered =
+    filter === 'all' ? projects : projects.filter((p) => p.category === filter);
 
   return (
-    <section id="projects" className="py-24 bg-gray-50 dark:bg-gray-900">
+    <section id="projects" className="section-pad section-alt">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Projects</h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-blue-600 via-green-500 to-orange-500 mx-auto mb-6"></div>
-          <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Explore my latest projects showcasing my skills in web development, mobile apps, and experimental technologies.
-          </p>
-        </div>
+        <SectionHeading
+          level="LV 06"
+          label="Projects"
+          title="Build Log"
+          description="Spring Boot, edge AI, and full-stack quests."
+        />
 
-        {/* Filter buttons */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12">
-          <button
-            onClick={() => setFilter('all')}
-            className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${filter === 'all'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700'
+        <BlurFade className="flex flex-wrap justify-center gap-2 mb-12">
+          {filters.map((f) => (
+            <button
+              key={f.key}
+              type="button"
+              onClick={() => setFilter(f.key)}
+              className={`font-pixel text-[8px] px-4 py-2 transition-all ${
+                filter === f.key
+                  ? 'btn-retro !py-2 !px-4'
+                  : 'retro-card-sm bg-surface hover:bg-accent/20'
               }`}
-          >
-            All Projects
-          </button>
-          <button
-            onClick={() => setFilter('web')}
-            className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${filter === 'web'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700'
-              }`}
-          >
-            Web Development
-          </button>
-          <button
-            onClick={() => setFilter('mobile')}
-            className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${filter === 'mobile'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700'
-              }`}
-          >
-            Mobile Apps
-          </button>
-          <button
-            onClick={() => setFilter('other')}
-            className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${filter === 'other'
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700'
-              }`}
-          >
-            Experimental
-          </button>
-        </div>
-
-        {/* Projects grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project) => (
-            <div
-              key={project.id}
-              className={`bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all transform hover:-translate-y-2 ${project.featured ? 'md:col-span-2 lg:col-span-1' : ''
-                }`}
             >
-              <div className="relative h-48 overflow-hidden group">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                  <div className="flex space-x-4">
+              {f.label}
+            </button>
+          ))}
+        </BlurFade>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filtered.map((project, i) => (
+            <BlurFade key={project.id} delay={i * 60}>
+              <RetroCard className="group h-full flex flex-col !p-0 overflow-hidden">
+                <div className="relative h-48 overflow-hidden">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
+                  <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
+                      type="button"
                       onClick={() => setSelectedProject(project)}
-                      className="p-2 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/40 transition-colors"
+                      className="p-2 rounded-full bg-background/80 backdrop-blur border border-border text-foreground hover:text-accent"
                       aria-label="View details"
                     >
-                      <Maximize2 size={18} />
+                      <Maximize2 size={16} />
                     </button>
                     <a
                       href={project.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-2 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/40 transition-colors"
-                      aria-label="GitHub repository"
+                      className="p-2 rounded-full bg-background/80 backdrop-blur border border-border text-foreground hover:text-accent"
+                      aria-label="GitHub"
                     >
-                      <Github size={18} />
+                      <Github size={16} />
                     </a>
                     {project.liveUrl && (
                       <a
                         href={project.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-2 bg-white/20 backdrop-blur-sm rounded-full text-white hover:bg-white/40 transition-colors"
+                        className="p-2 rounded-full bg-background/80 backdrop-blur border border-border text-foreground hover:text-accent"
                         aria-label="Live demo"
                       >
-                        <ExternalLink size={18} />
+                        <ExternalLink size={16} />
                       </a>
                     )}
                   </div>
                 </div>
-              </div>
 
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{project.title}</h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">{project.description}</p>
-
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tech.slice(0, 3).map((tech, index) => (
-                    <span
-                      key={index}
-                      className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded-full text-xs font-medium"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                  {project.tech.length > 3 && (
-                    <span className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded-full text-xs font-medium">
-                      +{project.tech.length - 3} more
+                <div className="p-6 flex flex-col flex-1">
+                  {project.featured && (
+                    <span className="text-xs font-mono text-accent uppercase tracking-wider mb-2">
+                      Featured
                     </span>
                   )}
+                  <h3 className="font-pixel text-[10px] mb-2">{project.title}</h3>
+                  <p className="text-muted text-sm line-clamp-3 mb-4 flex-1">{project.description}</p>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.tech.slice(0, 4).map((t) => (
+                      <span
+                        key={t}
+                        className="px-2.5 py-0.5 text-xs rounded-md border border-border bg-background/50 text-muted"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setSelectedProject(project)}
+                    className="text-sm font-medium text-accent hover:underline text-left"
+                  >
+                    View details →
+                  </button>
                 </div>
-
-                <button
-                  onClick={() => setSelectedProject(project)}
-                  className="text-blue-600 dark:text-blue-400 font-medium flex items-center hover:text-blue-800 dark:hover:text-blue-300 transition-colors"
-                >
-                  <span>View Details</span>
-                  <Code size={16} className="ml-1" />
-                </button>
-              </div>
-            </div>
+              </RetroCard>
+            </BlurFade>
           ))}
         </div>
 
-        {/* Project details modal */}
         {selectedProject && (
-          <div className="fixed inset-0 z-50 overflow-y-auto" aria-modal="true" role="dialog">
-            <div className="flex items-center justify-center min-h-screen p-4">
-              <div className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" onClick={() => setSelectedProject(null)}></div>
-
-              <div className="relative bg-white dark:bg-gray-900 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-xl transform transition-all">
-                <button
-                  onClick={() => setSelectedProject(null)}
-                  className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-                  aria-label="Close modal"
-                >
-                  <X size={24} />
-                </button>
-
-                <div className="relative h-64 md:h-80">
-                  <img
-                    src={selectedProject.image}
-                    alt={selectedProject.title}
-                    className="w-full h-full object-cover"
-                  />
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal>
+            <button
+              type="button"
+              className="absolute inset-0 bg-background/80 backdrop-blur-sm"
+              onClick={() => setSelectedProject(null)}
+              aria-label="Close"
+            />
+            <BlurFade inView className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto retro-card">
+              <button
+                type="button"
+                onClick={() => setSelectedProject(null)}
+                className="absolute top-4 right-4 z-10 p-2 rounded-full border border-border text-muted hover:text-foreground"
+                aria-label="Close modal"
+              >
+                <X size={20} />
+              </button>
+              <img
+                src={selectedProject.image}
+                alt={selectedProject.title}
+                className="w-full h-56 object-cover rounded-t-2xl"
+              />
+              <div className="p-8">
+                <h3 className="font-pixel text-xs mb-3">{selectedProject.title}</h3>
+                <p className="text-muted mb-6">{selectedProject.description}</p>
+                <div className="flex flex-wrap gap-2 mb-8">
+                  {selectedProject.tech.map((t) => (
+                    <span
+                      key={t}
+                      className="px-3 py-1 text-sm rounded-full border border-border bg-accent/5"
+                    >
+                      {t}
+                    </span>
+                  ))}
                 </div>
-
-                <div className="p-6 md:p-8">
-                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">{selectedProject.title}</h3>
-
-                  <p className="text-gray-600 dark:text-gray-400 mb-6">{selectedProject.description}</p>
-
-                  <div className="mb-6">
-                    <h4 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3">Technologies Used</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedProject.tech.map((tech, index) => (
-                        <span
-                          key={index}
-                          className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded-full text-sm font-medium"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="flex space-x-4">
+                <div className="flex flex-wrap gap-3">
+                  <a
+                    href={selectedProject.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                      className="btn-retro-outline !py-2 !px-4 !text-[8px]"
+                  >
+                    <Github size={16} /> GitHub
+                  </a>
+                  {selectedProject.liveUrl && (
                     <a
-                      href={selectedProject.githubUrl}
+                      href={selectedProject.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-6 py-2 bg-gray-800 dark:bg-gray-700 text-white rounded-full font-medium hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors flex items-center"
+                      className="btn-retro !py-2 !px-4 !text-[8px]"
                     >
-                      <Github size={18} className="mr-2" />
-                      <span>GitHub</span>
+                      <ExternalLink size={16} /> Live demo
                     </a>
-                    {selectedProject.liveUrl && (
-                      <a
-                        href={selectedProject.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="px-6 py-2 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-700 transition-colors flex items-center"
-                      >
-                        <ExternalLink size={18} className="mr-2" />
-                        <span>Live Demo</span>
-                      </a>
-                    )}
-                  </div>
+                  )}
                 </div>
               </div>
-            </div>
+            </BlurFade>
           </div>
         )}
       </div>

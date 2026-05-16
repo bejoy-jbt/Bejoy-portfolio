@@ -56,9 +56,9 @@ const TypedEffect: React.FC<TypedEffectProps> = ({
   }, [displayText, currentIndex, isTyping, strings, typingSpeed, deletingSpeed, delayBetween]);
 
   return (
-    <span className="inline-block">
+    <span className="inline-block text-accent">
       {displayText}
-      <span className="animate-blink">|</span>
+      <span className="animate-blink text-accent/80 ml-0.5">|</span>
     </span>
   );
 };

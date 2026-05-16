@@ -1,110 +1,56 @@
 import React from 'react';
-import { Code, Laptop, Lightbulb, Workflow } from 'lucide-react';
+import SectionHeading from '../ui/SectionHeading';
+import RetroCard from '../ui/RetroCard';
+import SkillBar from '../ui/SkillBar';
+import BlurFade from '../ui/BlurFade';
+import { profile, skillGroups } from '../../data/profile';
+
+const topSkills: { label: string; level: 0 | 1 | 2 | 3 | 4 }[] = [
+  { label: 'Java / Spring Boot', level: 4 },
+  { label: 'REST APIs', level: 4 },
+  { label: 'MySQL', level: 3 },
+  { label: 'React.js', level: 3 },
+  { label: 'Docker / AWS', level: 3 },
+  { label: 'ML / AI', level: 2 },
+];
 
 const About: React.FC = () => {
   return (
-    <section id="about" className="py-24 bg-gray-50 dark:bg-gray-900">
+    <section id="about" className="section-pad section-alt">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">About Me</h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-blue-600 via-green-500 to-orange-500 mx-auto"></div>
-        </div>
+        <SectionHeading
+          level="LV 01"
+          label="Character"
+          title="About Me"
+          description="Software engineer building microservices — part coder, part product thinker."
+        />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div className="order-2 md:order-1">
-            <div className="prose prose-lg dark:prose-invert max-w-none">
-              <p className="mb-4">
-                Hey there! I'm <span className="font-semibold">Bejoy</span>, a passionate tech enthusiast, aspiring
-                product manager, and creative product designer with a love for crafting intuitive digital experiences
-                and building products that truly make a difference.
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <BlurFade>
+            <RetroCard className="p-6">
+              <p className="prose-custom">{profile.summary}</p>
+              <p className="prose-custom mt-4">
+                Intern at <strong className="text-foreground">Mphasis</strong> (Bengaluru), building
+                Spring Boot microservices with Eureka, Actuator, and monitoring stacks.
               </p>
-
-
-              <p className="mb-4">
-                My journey began with a simple curiosity about how things are built and why they matter. What started as tinkering with code soon grew into a passion for designing thoughtful products that solve real problems and create delightful user experiences.
-              </p>
-
-              <p className="mb-4">
-                I bridge the gap between technology and design—I don't just build features, I shape experiences. Whether it's crafting a seamless MERN stack web app or designing an intuitive Android application, I always focus on the "why" behind every decision.
-              </p>
-
-              <p>
-                Outside of building and designing, you'll often find me exploring emerging tech trends, sketching new product ideas, learning about user behavior, or brainstorming the next big thing that could make a real impact.
-              </p>
-
-            </div>
-
-            <div className="mt-8 flex flex-wrap gap-4">
-              <span className="px-4 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 rounded-full text-sm font-medium">
-                MERN Stack
-              </span>
-              <span className="px-4 py-2 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 rounded-full text-sm font-medium">
-                ML and AI
-              </span>
-
-              <span className="px-4 py-2 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 rounded-full text-sm font-medium">
-                Product Management
-              </span>
-              <span className="px-4 py-2 bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-300 rounded-full text-sm font-medium">
-                UX/UI Design
-              </span>
-              <span className="px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 rounded-full text-sm font-medium">
-                Open CV
-              </span>
-            </div>
-          </div>
-
-          <div className="order-1 md:order-2">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-                <div className="flex justify-center mb-4">
-                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full">
-                    <Code size={24} />
-                  </div>
-                </div>
-                <h3 className="text-xl font-semibold text-center mb-2">Development</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-center">
-                  Building robust applications with modern technologies and best practices.
-                </p>
+              <div className="mt-6 flex flex-wrap gap-2">
+                {skillGroups[0].items.slice(0, 5).map((s) => (
+                  <span key={s} className="level-badge !text-[7px]">
+                    {s}
+                  </span>
+                ))}
               </div>
+            </RetroCard>
+          </BlurFade>
 
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-                <div className="flex justify-center mb-4">
-                  <div className="p-3 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full">
-                    <Lightbulb size={24} />
-                  </div>
-                </div>
-                <h3 className="text-xl font-semibold text-center mb-2">Innovation</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-center">
-                  Turning creative ideas into practical solutions through experimentation.
-                </p>
-              </div>
-
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-                <div className="flex justify-center mb-4">
-                  <div className="p-3 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-full">
-                    <Laptop size={24} />
-                  </div>
-                </div>
-                <h3 className="text-xl font-semibold text-center mb-2">Product Thinking</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-center">
-                  Creating user-centered experiences that solve real problems.
-                </p>
-              </div>
-
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-                <div className="flex justify-center mb-4">
-                  <div className="p-3 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-full">
-                    <Workflow size={24} />
-                  </div>
-                </div>
-                <h3 className="text-xl font-semibold text-center mb-2">Learning</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-center">
-                  Continuously exploring new technologies and expanding my skillset.
-                </p>
-              </div>
-            </div>
-          </div>
+          <BlurFade delay={100}>
+            <RetroCard className="p-6">
+              <h3 className="font-pixel text-[10px] mb-6 text-accent">SKILL METER</h3>
+              {topSkills.map((s) => (
+                <SkillBar key={s.label} label={s.label} level={s.level} />
+              ))}
+            </RetroCard>
+          </BlurFade>
         </div>
       </div>
     </section>

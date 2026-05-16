@@ -1,53 +1,138 @@
+@import './styles/home-scene.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Custom animations */
-.animation-delay-300 {
-  animation-delay: 300ms;
+:root {
+  --bg: 140 197 252;
+  --fg: 26 26 46;
+  --muted: 45 45 80;
+  --surface: 247 247 247;
+  --border: 26 26 46;
+  --accent: 61 158 72;
+  --accent-muted: 110 220 125;
+  --sky: 92 148 252;
+  --sky-light: 139 192 255;
+  --gold: 247 213 29;
+  --pixel-shadow: 26 26 46;
 }
 
-.animation-delay-600 {
-  animation-delay: 600ms;
+.dark {
+  --bg: 26 26 46;
+  --fg: 247 247 247;
+  --muted: 180 180 200;
+  --surface: 45 45 68;
+  --border: 247 247 247;
+  --accent: 110 220 125;
+  --accent-muted: 61 158 72;
+  --sky: 45 55 100;
+  --sky-light: 60 75 130;
+  --gold: 251 191 36;
+  --pixel-shadow: 0 0 0;
 }
 
-/* Typography */
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  @apply text-gray-900 dark:text-white bg-white dark:bg-gray-900 transition-colors duration-300;
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  @apply bg-background text-foreground antialiased;
+  font-family: 'VT323', monospace;
+  font-size: 1.25rem;
   line-height: 1.5;
+  image-rendering: pixelated;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  @apply font-bold;
-  line-height: 1.2;
+h1, h2, h3, h4, h5, h6,
+.font-pixel {
+  font-family: 'Press Start 2P', cursive;
+  line-height: 1.6;
 }
 
-/* Custom utility classes */
-.prose {
-  @apply text-gray-600 dark:text-gray-400;
-  line-height: 1.7;
-}
-
-.prose p {
-  @apply mb-4;
-}
-
-.prose p:last-child {
-  @apply mb-0;
-}
-
-/* Responsive container */
 .container {
   @apply px-4 mx-auto;
-  max-width: 1280px;
+  max-width: 1100px;
 }
 
-/* Accessibility */
+/* Retro sky — clouds on ::before so dark-mode opacity never dims page content */
+.retro-sky {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(180deg, rgb(var(--sky)) 0%, rgb(var(--sky-light)) 55%, rgb(var(--bg)) 100%);
+}
+
+.dark .retro-sky {
+  background: linear-gradient(180deg, rgb(var(--sky)) 0%, rgb(var(--bg)) 70%);
+}
+
+@layer components {
+  .pixel-border {
+    @apply border-4 border-border;
+    box-shadow: 6px 6px 0 rgb(var(--pixel-shadow));
+  }
+
+  .pixel-border-sm {
+    @apply border-2 border-border;
+    box-shadow: 4px 4px 0 rgb(var(--pixel-shadow));
+  }
+
+  .retro-card {
+    @apply bg-surface pixel-border;
+  }
+
+  .retro-card-sm {
+    @apply bg-surface pixel-border-sm;
+  }
+
+  .btn-retro {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-3 font-pixel text-[10px] sm:text-xs
+      bg-[rgb(var(--gold))] text-[rgb(var(--fg))] pixel-border-sm
+      hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0_rgb(var(--pixel-shadow))]
+      active:shadow-none active:translate-x-1 active:translate-y-1 transition-transform;
+  }
+
+  .btn-retro-outline {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-3 font-pixel text-[10px] sm:text-xs
+      bg-surface text-foreground pixel-border-sm
+      hover:bg-accent hover:text-white hover:border-border
+      active:translate-x-0.5 active:translate-y-0.5 transition-colors;
+  }
+
+  .section-pad {
+    @apply py-20 md:py-28;
+  }
+
+  .section-ground {
+    @apply bg-[#ded895] dark:bg-[#5a4a20]/40 border-t-4 border-border;
+  }
+
+  .section-alt {
+    @apply bg-surface/40;
+  }
+
+  .level-badge {
+    @apply inline-block font-pixel text-[8px] sm:text-[10px] px-3 py-1.5
+      bg-[rgb(var(--sky))] text-white border-2 border-border;
+    box-shadow: 3px 3px 0 rgb(var(--pixel-shadow));
+  }
+
+  .nav-link {
+    @apply font-pixel text-[9px] sm:text-[10px] text-muted hover:text-foreground transition-colors;
+  }
+
+  .input-retro {
+    @apply w-full px-4 py-3 bg-surface border-4 border-border text-foreground text-lg
+      placeholder:text-muted/70 focus:outline-none focus:ring-0
+      focus:border-accent;
+    box-shadow: inset 3px 3px 0 rgba(0, 0, 0, 0.08);
+  }
+}
+
+.prose-custom p {
+  @apply text-muted leading-relaxed mb-4 last:mb-0 text-lg;
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;
@@ -55,25 +140,4 @@ h1, h2, h3, h4, h5, h6 {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
-
-@keyframes glitch {
-  0% {
-    text-shadow: 2px 0 red, -2px 0 blue;
-  }
-  20% {
-    text-shadow: -2px 0 red, 2px 0 blue;
-  }
-  40% {
-    text-shadow: 2px 0 red, -2px 0 blue;
-  }
-  60% {
-    text-shadow: -2px 0 red, 2px 0 blue;
-  }
-  100% {
-    text-shadow: 2px 0 red, -2px 0 blue;
-  }
-}
-.glitch {
-  animation: glitch 1s infinite;
 }

@@ -1,106 +1,97 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
+import { ArrowDown, Github, Linkedin, Mail, Code2 } from 'lucide-react';
 import TypedEffect from '../ui/TypedEffect';
-import TextPressure from '../ui/TextPressure';
+import BlurFade from '../ui/BlurFade';
+import { profile } from '../../data/profile';
+import HomeScene from '../home/HomeScene';
 
 const Home: React.FC = () => {
-  const backgroundRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!backgroundRef.current) return;
-
-      const x = e.clientX / window.innerWidth;
-      const y = e.clientY / window.innerHeight;
-
-      backgroundRef.current.style.transform = `translate(${x * 20}px, ${y * 20}px)`;
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
-  const handleScrollTo = (id: string) => {
-    const element = document.querySelector(`#${id}`);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  const scrollTo = (id: string) => {
+    document.querySelector(`#${id}`)?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const socialLinks = [
+    { href: profile.links.github, icon: Github, label: 'GitHub' },
+    { href: profile.links.linkedin, icon: Linkedin, label: 'LinkedIn' },
+    { href: profile.links.leetcode, icon: Code2, label: 'LeetCode' },
+    { href: `mailto:${profile.email}`, icon: Mail, label: 'Email' },
+  ];
+
   return (
-    <section id="home" className="min-h-screen flex items-center relative overflow-hidden">
-      {/* Background animation */}
-      <div className="absolute inset-0 z-0">
-        <div
-          ref={backgroundRef}
-          className="absolute inset-0 opacity-10 dark:opacity-20 transition-transform duration-500 ease-out"
-        >
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-blue-500 blur-3xl"></div>
-          <div className="absolute top-1/3 right-1/3 w-80 h-80 rounded-full bg-green-500 blur-3xl"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-72 h-72 rounded-full bg-orange-500 blur-3xl"></div>
+    <section id="home" className="relative min-h-screen flex items-center retro-sky overflow-hidden">
+      <HomeScene />
+      <div className="absolute bottom-0 left-0 right-0 h-16 bg-[#ded895] dark:bg-[#4a3f2a] border-t-4 border-border z-[3]" />
+      <div className="absolute bottom-16 left-0 right-0 h-4 bg-[#c4a84f] dark:bg-[#3d3420] border-t-2 border-border z-[3]" />
+
+      <div className="container relative z-10 mx-auto px-4 pt-28 pb-28">
+        <div className="max-w-3xl mx-auto text-center">
+          <BlurFade>
+            <span className="level-badge mb-6">PLAYER 1</span>
+          </BlurFade>
+
+          <BlurFade delay={80}>
+            <p className="font-pixel text-[10px] sm:text-xs text-foreground/80 mb-4">
+              {profile.title.toUpperCase()}
+            </p>
+          </BlurFade>
+
+          <BlurFade delay={120}>
+            <h1 className="font-pixel text-2xl sm:text-3xl md:text-4xl text-foreground mb-6 leading-relaxed">
+              {profile.name}
+            </h1>
+          </BlurFade>
+
+          <BlurFade delay={200} className="min-h-[2rem] mb-6">
+            <p className="font-pixel text-[10px] sm:text-xs text-accent">
+              <TypedEffect strings={profile.typedRoles} />
+            </p>
+          </BlurFade>
+
+          <BlurFade delay={280}>
+            <p className="text-xl text-muted max-w-xl mx-auto mb-10">{profile.tagline}</p>
+          </BlurFade>
+
+          <BlurFade delay={360} className="flex flex-col sm:flex-row justify-center gap-4 mb-10">
+            <button type="button" className="btn-retro" onClick={() => scrollTo('projects')}>
+              START
+            </button>
+            <a
+              href={profile.resume.href}
+              download={profile.resume.downloadName}
+              className="btn-retro-outline"
+            >
+              RESUME
+            </a>
+          </BlurFade>
+
+          <BlurFade delay={440} className="flex justify-center gap-3">
+            {socialLinks.map(({ href, icon: Icon, label }) => (
+              <a
+                key={label}
+                href={href}
+                target={href.startsWith('mailto') ? undefined : '_blank'}
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="p-2.5 retro-card-sm bg-surface hover:bg-accent hover:text-white transition-colors"
+              >
+                <Icon size={18} />
+              </a>
+            ))}
+          </BlurFade>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 mt-40 z-10">
-        <div className="max-w-2xl mx-auto text-center">
-          <h1 className="text-center text-2xl md:text-2xl lg:text-7xl font-extrabold mb-6 leading-tight animate-fadeInUp animation-delay-100">
-            Hola! I'm
-            <div style={{ position: 'relative', height: '200px' }}>
-              <TextPressure
-                text="Bejoy!"
-                flex={true}
-                alpha={false}
-                stroke={false}
-                width={true}
-                weight={true}
-                italic={true}
-                textColor="#ffffff"
-                strokeColor="#252525"
-                minFontSize={26}
-              />
-            </div>
-          </h1>
-
-          <div className="text-xl md:text-2xl lg:text-3xl text-gray-700 dark:text-gray-300 mb-8 h-12">
-            <TypedEffect
-              strings={[
-                "Tech Dreamer.",
-                "Creative Thinker.",
-                "Future Builder.",
-                "Product Innovator.",
-              ]}
-            />
-          </div>
-
-          <p className="text-lg text-gray-600 dark:text-gray-400 mb-10 max-w-2xl mx-auto animate-fadeIn">
-            I build innovative digital experiences that empower users and solve real-world problems,
-            combining technical expertise with product thinking.
-          </p>
-
-          <div className="flex flex-col sm:flex-row justify-center gap-4 animate-fadeInUp animation-delay-300">
-            <button
-              className="px-8 py-3 bg-blue-600 text-white rounded-full font-medium hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl"
-              onClick={() => handleScrollTo('projects')}
-            >
-              View My Work
-            </button>
-            <button
-              className="px-8 py-3 bg-transparent border-2 border-gray-800 dark:border-white text-gray-800 dark:text-white rounded-full font-medium hover:bg-gray-800 hover:text-white dark:hover:bg-white dark:hover:text-gray-900 transition-colors"
-              onClick={() => handleScrollTo('contact')}
-            >
-              Get In Touch
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce z-10">
+      <BlurFade delay={500} className="absolute bottom-24 left-1/2 -translate-x-1/2 z-10">
         <button
-          className="flex flex-col items-center text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-          onClick={() => handleScrollTo('about')}
+          type="button"
+          onClick={() => scrollTo('about')}
+          className="flex flex-col items-center gap-1 font-pixel text-[8px] text-foreground animate-float"
+          aria-label="Scroll down"
         >
-          ↓
+          SCROLL
+          <ArrowDown size={18} />
         </button>
-      </div>
+      </BlurFade>
     </section>
   );
 };

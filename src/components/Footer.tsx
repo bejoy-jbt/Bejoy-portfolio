@@ -1,69 +1,42 @@
 import React from 'react';
-import { Github, Linkedin, Twitter, Mail } from 'lucide-react';
+import { Github, Linkedin, Mail, Code2 } from 'lucide-react';
+import { profile } from '../data/profile';
 
 const Footer: React.FC = () => {
-  const currentYear = new Date().getFullYear();
-  
+  const year = new Date().getFullYear();
+  const links = [
+    { href: profile.links.github, icon: Github, label: 'GitHub' },
+    { href: profile.links.linkedin, icon: Linkedin, label: 'LinkedIn' },
+    { href: profile.links.leetcode, icon: Code2, label: 'LeetCode' },
+    { href: `mailto:${profile.email}`, icon: Mail, label: 'Email' },
+  ];
+
   return (
-    <footer className="bg-gray-50 dark:bg-gray-900 py-12 border-t border-gray-200 dark:border-gray-800">
+    <footer className="section-ground py-12">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className="mb-6 md:mb-0">
-            <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-green-500 to-orange-500">
-              Bejoy
-            </h2>
-            <p className="text-gray-600 dark:text-gray-400 mt-2">
-              Tech Dreamer. Creative Thinker. Future Builder.
-            </p>
+        <div className="retro-card p-6 flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="text-center md:text-left">
+            <p className="font-pixel text-xs text-foreground">{profile.name}</p>
+            <p className="text-lg text-muted mt-2">{profile.title} · {profile.location}</p>
           </div>
-          
-          <div className="flex space-x-6">
-            <a 
-              href="https://github.com/bejoy-jbt" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              aria-label="GitHub"
-            >
-              <Github size={20} />
-            </a>
-            <a 
-              href="https://www.linkedin.com/in/bejoyjbt/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              aria-label="LinkedIn"
-            >
-              <Linkedin size={20} />
-            </a>
-            <a 
-              href="https://twitter.com/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              aria-label="Twitter"
-            >
-              <Twitter size={20} />
-            </a>
-            <a 
-              href="mailto:bejoyjbt7@gmail.com"
-              className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              aria-label="Email"
-            >
-              <Mail size={20} />
-            </a>
+          <div className="flex gap-2">
+            {links.map(({ href, icon: Icon, label }) => (
+              <a
+                key={label}
+                href={href}
+                target={href.startsWith('mailto') ? undefined : '_blank'}
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="p-2 retro-card-sm hover:bg-accent hover:text-white transition-colors"
+              >
+                <Icon size={18} />
+              </a>
+            ))}
           </div>
         </div>
-        
-        <div className="border-t border-gray-200 dark:border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-600 dark:text-gray-400 text-sm">
-            &copy; {currentYear} Bejoy. All rights reserved.
-          </p>
-          <p className="text-gray-600 dark:text-gray-400 text-sm mt-4 md:mt-0">
-            <span className="hidden md:inline">Designed & Developed with ❤️</span>
-            <span className="md:hidden">Made with ❤️</span>
-          </p>
-        </div>
+        <p className="text-center font-pixel text-[8px] text-muted mt-6">
+          © {year} · INSERT COIN TO CONTINUE
+        </p>
       </div>
     </footer>
   );

@@ -1,18 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './components/sections/Home';
 import About from './components/sections/About';
 import Education from './components/sections/Education';
 import Projects from './components/sections/Projects';
-import Blog from './components/sections/Blog';
 import Resume from './components/sections/Resume';
 import Contact from './components/sections/Contact';
 import { ThemeProvider } from './context/ThemeContext';
-
-import ClickSpark from './components/ui/ClickSpark';
-
-import SplashCursor from '../src/components/ui/SplashCursor';
 
 function App() {
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -21,29 +16,22 @@ function App() {
     const handleScroll = () => {
       const totalScroll = document.documentElement.scrollHeight - document.documentElement.clientHeight;
       const currentScroll = document.documentElement.scrollTop;
-      const progress = (currentScroll / totalScroll) * 100;
-      setScrollProgress(progress);
+      setScrollProgress(totalScroll > 0 ? (currentScroll / totalScroll) * 100 : 0);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
     <ThemeProvider>
-      <div className="relative">
+      <div className="relative min-h-screen">
         <div
-          className="fixed top-0 left-0 h-1 bg-gradient-to-r from-blue-500 via-green-500 to-orange-500 z-50 transition-all duration-300 ease-out"
+          className="fixed top-0 left-0 h-1 z-50 bg-accent border-b-2 border-border transition-all duration-200"
           style={{ width: `${scrollProgress}%` }}
+          aria-hidden
         />
-
-        <ClickSpark
-          sparkColor='#fff'
-          sparkSize={10}
-          sparkRadius={15}
-          sparkCount={8}
-          duration={400}
-        >
         <Header />
         <main>
           <Home />
@@ -53,7 +41,6 @@ function App() {
           <Education />
           <Contact />
         </main>
-        </ClickSpark>
         <Footer />
       </div>
     </ThemeProvider>
